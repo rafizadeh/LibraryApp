@@ -41,5 +41,19 @@ namespace LibraryManagement.Forms
             or.Show();
             this.Hide();
         }
+
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            UserManagement us = new UserManagement(form);
+            us.Show();
+            this.Hide();
+
+        }
     }
 }

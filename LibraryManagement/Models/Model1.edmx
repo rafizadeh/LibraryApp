@@ -24,13 +24,7 @@
           <Property Name="Author" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PageCount" Type="int" Nullable="false" />
           <Property Name="Genre" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BookStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="BookStatus" Type="bit" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -38,12 +32,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookId" Type="int" />
-          <Property Name="BookstatusId" Type="int" />
           <Property Name="TakeDate" Type="datetime" />
           <Property Name="Deadline" Type="datetime" />
           <Property Name="DelayedDays" Type="int" />
           <Property Name="FinePrice" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
           <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="Users">
@@ -68,18 +60,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_BookStatus">
-          <End Role="BookStatus" Type="Self.BookStatus" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BookStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="BookstatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Orders_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -95,15 +75,10 @@
         <EntityContainer Name="LibraryModelStoreContainer">
           <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BookStatus" EntityType="Self.BookStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Orders_Books" Association="Self.FK_Orders_Books">
             <End Role="Books" EntitySet="Books" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_BookStatus" Association="Self.FK_Orders_BookStatus">
-            <End Role="BookStatus" EntitySet="BookStatus" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
@@ -134,32 +109,8 @@
           <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PageCount" Type="Int32" Nullable="false" />
           <Property Name="Genre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Books" FromRole="Books" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="BookStatu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_BookStatus" FromRole="BookStatus" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookId" Type="Int32" />
-          <Property Name="BookstatusId" Type="Int32" />
-          <Property Name="Deadline" Type="DateTime" Precision="3" />
-          <Property Name="DelayedDays" Type="Int32" />
-          <Property Name="FinePrice" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="Book" Relationship="Self.FK_Orders_Books" FromRole="Orders" ToRole="Books" />
-          <NavigationProperty Name="BookStatu" Relationship="Self.FK_Orders_BookStatus" FromRole="Orders" ToRole="BookStatus" />
-          <Property Name="TakeDate" Type="DateTime" Precision="3" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="LibraryModel.FK_Orders_Users" FromRole="Order" ToRole="User" />
+          <Property Name="BookStatus" Type="Boolean" />
+          <NavigationProperty Name="Orders" Relationship="LibraryModel.FK_Orders_Books" FromRole="Book" ToRole="Order" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -172,49 +123,46 @@
           <Property Name="Number" Type="Int32" />
           <NavigationProperty Name="Orders" Relationship="LibraryModel.FK_Orders_Users" FromRole="User" ToRole="Order" />
         </EntityType>
-        <Association Name="FK_Orders_Books">
-          <End Role="Books" Type="Self.Book" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Books">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="BookId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_BookStatus">
-          <End Role="BookStatus" Type="Self.BookStatu" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BookStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="BookstatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LibraryManagementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Admins" EntityType="Self.Admin" />
           <EntitySet Name="Books" EntityType="Self.Book" />
-          <EntitySet Name="BookStatus" EntityType="Self.BookStatu" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Orders_Books" Association="Self.FK_Orders_Books">
-            <End Role="Books" EntitySet="Books" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_BookStatus" Association="Self.FK_Orders_BookStatus">
-            <End Role="BookStatus" EntitySet="BookStatus" />
-            <End Role="Orders" EntitySet="Orders" />
+          <EntitySet Name="Orders" EntityType="LibraryModel.Order" />
+          <AssociationSet Name="FK_Orders_Books" Association="LibraryModel.FK_Orders_Books">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Users" Association="LibraryModel.FK_Orders_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookId" Type="Int32" />
+          <Property Name="TakeDate" Type="DateTime" Precision="3" />
+          <Property Name="Deadline" Type="DateTime" Precision="3" />
+          <Property Name="DelayedDays" Type="Int32" />
+          <Property Name="FinePrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Book" Relationship="LibraryModel.FK_Orders_Books" FromRole="Order" ToRole="Book" />
+          <NavigationProperty Name="User" Relationship="LibraryModel.FK_Orders_Users" FromRole="Order" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Orders_Books">
+          <End Type="LibraryModel.Book" Role="Book" Multiplicity="0..1" />
+          <End Type="LibraryModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_Users">
           <End Type="LibraryModel.User" Role="User" Multiplicity="0..1" />
           <End Type="LibraryModel.Order" Role="Order" Multiplicity="*" />
@@ -227,7 +175,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -247,34 +195,12 @@
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="LibraryModel.Book">
               <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="BookStatus" ColumnName="BookStatus" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
                 <ScalarProperty Name="PageCount" ColumnName="PageCount" />
                 <ScalarProperty Name="Genre" ColumnName="Genre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BookStatus">
-            <EntityTypeMapping TypeName="LibraryModel.BookStatu">
-              <MappingFragment StoreEntitySet="BookStatus">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="LibraryModel.Order">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="TakeDate" ColumnName="TakeDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="BookId" ColumnName="BookId" />
-                <ScalarProperty Name="BookstatusId" ColumnName="BookstatusId" />
-                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
-                <ScalarProperty Name="DelayedDays" ColumnName="DelayedDays" />
-                <ScalarProperty Name="FinePrice" ColumnName="FinePrice" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -286,6 +212,19 @@
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="LibraryModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FinePrice" ColumnName="FinePrice" />
+                <ScalarProperty Name="DelayedDays" ColumnName="DelayedDays" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="TakeDate" ColumnName="TakeDate" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

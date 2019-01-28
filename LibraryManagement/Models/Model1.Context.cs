@@ -27,8 +27,7 @@ namespace LibraryManagement.Models
     
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Book> Books { get; set; }
-        public virtual DbSet<BookStatu> BookStatus { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace LibraryManagement.Models
         public string Author { get; set; }
         public int PageCount { get; set; }
         public string Genre { get; set; }
+        public Nullable<bool> BookStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

@@ -16,16 +16,13 @@ namespace LibraryManagement.Models
     {
         public int Id { get; set; }
         public Nullable<int> BookId { get; set; }
-        public Nullable<int> BookstatusId { get; set; }
+        public Nullable<System.DateTime> TakeDate { get; set; }
         public Nullable<System.DateTime> Deadline { get; set; }
         public Nullable<int> DelayedDays { get; set; }
         public Nullable<decimal> FinePrice { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
-        public Nullable<System.DateTime> TakeDate { get; set; }
         public Nullable<int> UserId { get; set; }
     
         public virtual Book Book { get; set; }
-        public virtual BookStatu BookStatu { get; set; }
         public virtual User User { get; set; }
     }
 }

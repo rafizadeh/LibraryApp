@@ -110,7 +110,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(565, 123);
+            this.panel1.Size = new System.Drawing.Size(610, 123);
             this.panel1.TabIndex = 3;
             // 
             // label1
@@ -318,7 +318,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBookDelete;
         private System.Windows.Forms.Button btnBookUpdate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private new System.Windows.Forms.DataGridViewTextBoxColumn Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn PageCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Genre;
