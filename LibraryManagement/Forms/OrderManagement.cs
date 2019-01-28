@@ -15,9 +15,11 @@ namespace LibraryManagement.Forms
     {
         private readonly LibraryManagementEntities db = new LibraryManagementEntities();
         Form form;
-        public OrderManagement(Form _form)
+        Dashboard dashboard;
+        public OrderManagement(Form _form,Dashboard _dashboard)
         {
             form = _form;
+            dashboard = _dashboard;
             InitializeComponent();
             FillBooks();
             FillUsers();
@@ -143,6 +145,12 @@ namespace LibraryManagement.Forms
             {
                 dgvFines.Rows.Add(order.User.Name, order.Book.Name, order.DelayedDays + " " + "days", order.FinePrice + " " + "manat");
             }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            dashboard.Show();
         }
 
     }

@@ -28,7 +28,7 @@ namespace LibraryManagement.Forms
         #region Menu
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            BookManagement bk = new BookManagement(form);
+            BookManagement bk = new BookManagement(form,this);
             bk.Show();
             this.Hide();
         }
@@ -37,7 +37,7 @@ namespace LibraryManagement.Forms
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            OrderManagement or = new OrderManagement(form);
+            OrderManagement or = new OrderManagement(form,this);
             or.Show();
             this.Hide();
         }
@@ -50,10 +50,12 @@ namespace LibraryManagement.Forms
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            UserManagement us = new UserManagement(form);
+            UserManagement us = new UserManagement(form,this);
             us.Show();
             this.Hide();
 
         }
+
+        
     }
 }

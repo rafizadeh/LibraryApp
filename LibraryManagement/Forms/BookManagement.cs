@@ -15,14 +15,12 @@ namespace LibraryManagement.Forms
     {
         private readonly LibraryManagementEntities db = new LibraryManagementEntities();
         Form form;
+        Dashboard dashboard;
 
-        public BookManagement()
-        {
-        }
-
-        public BookManagement(Form _form)
+        public BookManagement(Form _form,Dashboard _dashboard)
         {
             form = _form;
+            dashboard = _dashboard;
             InitializeComponent();
             DefaultVisibilty();
             FillBooks();
@@ -47,7 +45,7 @@ namespace LibraryManagement.Forms
             }
         }
 
-        //for Adding books
+        //kitab elave etmek uchun metod
 
         public void AddBook()
         {
@@ -58,7 +56,8 @@ namespace LibraryManagement.Forms
                     Name = txtBookname.Text,
                     Author = txtBookAuthor.Text,
                     PageCount = Convert.ToInt32(txtBookPage.Text),
-                    Genre = txtBookgenre.Text
+                    Genre = txtBookgenre.Text,
+                    BookStatus = true
                 };
 
                 txtBookname.Clear();
@@ -112,7 +111,7 @@ namespace LibraryManagement.Forms
             txtBookgenre.Text = genre;
         }
 
-        //resetlemek cuhun olan metod
+        //resetlemek uchhun olan metod
         private void Reset()
         {
             txtBookname.Clear();
@@ -162,7 +161,8 @@ namespace LibraryManagement.Forms
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Hide();
-            form.Show();
+            dashboard.Show();
         }
+
     }
 }
